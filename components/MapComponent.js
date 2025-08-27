@@ -17,7 +17,7 @@ export default function TreeMap() {
       style: 'mapbox://styles/mapbox/outdoors-v12',
       center: [4.911211, 52.371114],
       zoom: 17,
-      pitch: 60,
+      pitch: 500,
     })
 
     // Load tree data after map initializes
