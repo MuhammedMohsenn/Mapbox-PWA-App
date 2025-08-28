@@ -1,23 +1,25 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { fetchTreeData } from '@/lib/treeData'
+import { useRouter } from 'next/navigation'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
 export default function TreeMap() {
   const mapContainer = useRef(null)
   const map = useRef(null)
+  const router = useRouter()
 
   useEffect(() => {
     // Initialize map
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/outdoors-v12',
+      style: 'mapbox://styles/mapbox/streets-v12',
       center: [4.911211, 52.371114],
-      zoom: 17,
-      pitch: 500,
+      zoom: 18,
+      pitch: 700,
     })
 
     // Load tree data after map initializes
@@ -54,22 +56,10 @@ export default function TreeMap() {
           },
         })
 
-        // 3. ADD CLICK INTERACTIONS FOR TREE ICONS
+        // Tree click handling - Navigate to tree details page
         map.current.on('click', 'tree-icons', (e) => {
           const tree = e.features[0]
-          new mapboxgl.Popup()
-            .setLngLat(tree.geometry.coordinates)
-            .setHTML(
-              `
-              <div class="p-2 text-black">
-                <h3 class="font-bold">Tree Information</h3>
-                <p>Species: ${tree.properties.species}</p>
-                <p>Height: ${tree.properties.height}</p>
-                <p>ID: ${tree.properties.id}</p>
-              </div>
-            `
-            )
-            .addTo(map.current)
+          router.push(`/tree/${tree.properties.id}`)
         })
 
         // 4. ADD HOVER EFFECTS
