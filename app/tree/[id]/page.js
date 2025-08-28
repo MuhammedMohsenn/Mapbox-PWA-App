@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import Link from 'next/link'
 
 // Tree Mock data
-const mockTreeData = {
+export const mockTreeData = {
   id: 3173094750423,
   name: 'Oak Tree',
   species: 'Ulmus hollandica "Commelin"',
@@ -56,7 +57,7 @@ export default function TreeDetailPage() {
           `
     <div class="tree-popup-content">
       <div class="tree-popup-header">
-        <img src="/tree-icon.png" alt="Tree" class="tree-icon" />
+        <img src="/tree-icon.jpg" alt="Tree" class="tree-icon" />
       </div>
       <div class="tree-popup-body">
         <p>Species: ${tree.species}</p>
@@ -103,7 +104,10 @@ export default function TreeDetailPage() {
 
       {/* New Chat button */}
       <div className="bg-white rounded-lg shadow-md w-full">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md w-full hover:bg-blue-600 flex items-center justify-center gap-x-1">
+        <Link
+          href="/chat"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md w-full hover:bg-blue-600 flex items-center justify-center gap-x-1"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">
             <path
               fill="#fff"
@@ -111,7 +115,7 @@ export default function TreeDetailPage() {
             />
           </svg>
           New Chat
-        </button>
+        </Link>
       </div>
 
       {/* Custom styles for the popup */}

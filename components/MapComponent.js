@@ -102,7 +102,7 @@ export default function TreeMap() {
 
   return (
     <div className="relative">
-      <div ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
+      <div ref={mapContainer} style={{ width: '100vw', height: '89vh' }} />
 
       {/* Show loading overlay when trees are loading */}
       {isLoading && <LoadingOverlay />}
