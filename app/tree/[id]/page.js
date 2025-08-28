@@ -22,7 +22,6 @@ const mockTreeData = {
 }
 
 export default function TreeDetailPage() {
-  //   const params = useParams()
   const router = useRouter()
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -43,7 +42,6 @@ export default function TreeDetailPage() {
 
     // Wait for the map to load
     map.current.on('load', () => {
-      // Add a marker for the tree
       const marker = new mapboxgl.Marker().setLngLat(tree.coordinates).addTo(map.current)
 
       // Create and add the popup

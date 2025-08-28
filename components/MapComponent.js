@@ -2,8 +2,10 @@
 import { useEffect, useRef } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { fetchTreeData } from '@/lib/treeData'
 import { useRouter } from 'next/navigation'
+import useTreeStore from '@/stores/treeStore'
+import LoadingOverlay from './LoadingOverlay'
+import ErrorDisplay from './ErrorDisplay'
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
@@ -11,6 +13,7 @@ export default function TreeMap() {
   const mapContainer = useRef(null)
   const map = useRef(null)
   const router = useRouter()
+  const { fetchTrees, isLoading, error } = useTreeStore()
 
   useEffect(() => {
     // Initialize map
@@ -24,10 +27,9 @@ export default function TreeMap() {
 
     // Load tree data after map initializes
     map.current.on('load', async () => {
-      // Fetch tree data
       const bounds = map.current.getBounds()
       const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`
-      const treeData = await fetchTreeData(bbox)
+      const treeData = await fetchTrees(bbox)
 
       // Add tree source
       map.current.addSource('trees', {
@@ -90,7 +92,23 @@ export default function TreeMap() {
     })
 
     return () => map.current?.remove()
-  }, [])
+  }, [fetchTrees, router])
 
-  return <div ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
+  const handleRetry = () => {
+    const bounds = map.current.getBounds()
+    const bbox = `${bounds.getSouth()},${bounds.getWest()},${bounds.getNorth()},${bounds.getEast()}`
+    fetchTrees(bbox)
+  }
+
+  return (
+    <div className="relative">
+      <div ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
+
+      {/* Show loading overlay when trees are loading */}
+      {isLoading && <LoadingOverlay />}
+
+      {/* Show error message if there's an error */}
+      {error && <ErrorDisplay error={error} onRetry={handleRetry} />}
+    </div>
+  )
 }
