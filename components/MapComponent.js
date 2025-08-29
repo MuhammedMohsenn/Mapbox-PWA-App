@@ -21,8 +21,9 @@ export default function TreeMap() {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [4.911211, 52.371114],
-      zoom: 18,
-      pitch: 700,
+      zoom: 15,
+      pitch: 0,
+      bearing: 0,
     })
 
     // Load tree data after map initializes
@@ -53,7 +54,7 @@ export default function TreeMap() {
           source: 'trees',
           layout: {
             'icon-image': 'tree-icon',
-            'icon-size': 0.1,
+            'icon-size': 0.05,
             'icon-allow-overlap': true,
           },
         })
@@ -102,7 +103,7 @@ export default function TreeMap() {
 
   return (
     <div className="relative">
-      <div ref={mapContainer} style={{ width: '100vw', height: '89vh' }} />
+      <div ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
 
       {/* Show loading overlay when trees are loading */}
       {isLoading && <LoadingOverlay />}

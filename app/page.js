@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="relative">
-      <div className="h-screen w-full">
+    <main className="relative h-screen flex flex-col">
+      <div className="flex-1 relative">
         <MapComponent />
       </div>
 
-      <div className="flex flex-col absolute bottom-0 left-0 right-0 px-4 py-[17px] bg-white shadow-lg">
+      <div className="flex flex-col fixed bottom-0 left-0 right-0 px-4 py-[17px] bg-white shadow-lg">
         <h1 className="text-lg text-center">Select a tree on the map to start to chat</h1>
-        <a
+        <Link
           className="w-full border border-gray-300 text-gray-500 px-4 py-2 rounded-md text-center flex items-center justify-center gap-2"
           href="/addnewtree"
         >
@@ -31,7 +31,7 @@ export default function Home() {
             <path d="M12 8v8"></path>
           </svg>
           <span className="text-sm">Add New Tree</span>
-        </a>
+        </Link>
       </div>
     </main>
   )
